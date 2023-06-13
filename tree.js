@@ -103,17 +103,38 @@ class Tree {
 
     return func ? null : result;
   }
-
+  // in-order traversal
   inorder(func = null, node = this.root, result = []) {
-    if(node === null) return result
+    if (node === null) return result;
 
     this.inorder(func, node.left, result); // traverse left subtree
-    func ? func(node) : result.push(node.value)
+    func ? func(node) : result.push(node.value);
     this.inorder(func, node.right, result); // traverse right subtree
-      
-    return result 
+
+    return result;
+  }
+
+  // pre-order traversal
+  preorder(func = null, node = this.root, result = []) {
+    if (node === null) return result;
+
+    func ? func(node) : result.push(node.value);
+    this.preorder(func, node.left, result);
+    this.preorder(func, node.right, result);
+
+    return result;
+  }
+
+  // post-order traversal
+  postorder(func = null, node = this.root, result = []) {
+    if (node === null) return result;
+
+    this.postorder(func, node.left, result);
+    this.postorder(func, node.right, result);
+    func ? func(node) : result.push(node.value);
+
+    return result;
   }
 }
-
 
 export default Tree;
