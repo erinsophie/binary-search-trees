@@ -103,6 +103,17 @@ class Tree {
 
     return func ? null : result;
   }
+
+  inorder(func = null, node = this.root, result = []) {
+    if(node === null) return result
+
+    this.inorder(func, node.left, result); // traverse left subtree
+    func ? func(node) : result.push(node.value)
+    this.inorder(func, node.right, result); // traverse right subtree
+      
+    return result 
+  }
 }
+
 
 export default Tree;
