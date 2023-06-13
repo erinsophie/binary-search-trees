@@ -33,6 +33,42 @@ class Tree {
     
     return node
   }
+
+    // deletes given value 
+    delete(node = this.root, value) {
+      // base case
+      if(node === null) return node
+      
+      if(value < node.value) {
+          node.left = this.delete(node.left, value)
+      } else if (value > node.value) {
+          node.right = this.delete(node.right, value)
+      }
+      
+      // node with no children
+      if(node.left === null && node.right === null) return null
+      
+      // node with one child 
+       if(node.left === null) return node.right
+       if(node.right === null) return node.left
+       
+       // node with 2 children
+       // replace current node with in-order successor
+       node.value = this.findMinNode(node)
+       // delete in-order successor from the right subtree
+       node.right = this.delete(node.right, node.value)
+       
+       return node 
+  }
+  
+// find in-order successor 
+findMinNode(node) {
+    let currentNode = node.right;
+    while(currentNode && currentNode.left !== null) {
+        currentNode = currentNode.left;
+    }
+    return currentNode.value; 
+  }
 }
 
 export default Tree 
