@@ -69,6 +69,15 @@ findMinNode(node) {
     }
     return currentNode.value; 
   }
+    // returns node with given value
+    find(value, node = this.root) {
+      if(node === null) return 'Value not found'
+      
+      if (value < node.value) return this.find(value, node.left);
+      if (value > node.value) return this.find(value, node.right);
+      
+      return node
+   }
 }
 
 export default Tree 
