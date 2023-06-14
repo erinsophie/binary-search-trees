@@ -42,38 +42,37 @@ class Tree {
 
   // deletes given value
   delete(data, node = this.root) {
-    // base case
     if (node === null) return node;
 
     if (data < node.data) {
-      node.left = this.delete(node.left, data);
+      node.left = this.delete(data, node.left);
     } else if (data > node.data) {
-      node.right = this.delete(node.right, data);
+      node.right = this.delete(data, node.right);
     }
 
-    // node with no children
-    if (node.left === null && node.right === null) return null;
+    // if data is the same then this is the node to be deleted
+    else {
+      // node with no child or one child
+      if (node.left === null) return node.right;
+      if (node.right === null) return node.left;
 
-    // node with one child
-    if (node.left === null) return node.right;
-    if (node.right === null) return node.left;
-
-    // node with 2 children
-    // replace current node with in-order successor
-    node.data = this.findMinNode(node);
-    // delete in-order successor from the right subtree
-    node.right = this.delete(node.right, node.data);
+      // node with 2 children: replace current node with in-order successor (smallest in the right subtree)
+      node.data = this.findMinNode(node.right);
+      // Delete the inorder successor
+      node.right = this.delete(node.data, node.right);
+    }
 
     return node;
   }
 
   // find inorder successor
   findMinNode(node) {
-    let currentNode = node.right;
-    while (currentNode && currentNode.left !== null) {
-      currentNode = currentNode.left;
+    let minValue = node.data;
+    while (node && node.left !== null) {
+      minValue = node.left.data;
+      node = node.left;
     }
-    return currentNode.data;
+    return minValue;
   }
 
   // returns node with given value
