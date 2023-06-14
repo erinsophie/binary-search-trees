@@ -10,16 +10,16 @@ class Tree {
     arr = [...new Set(arr)].sort((a, b) => a - b);
 
     if (arr.length === 0) return null;
-    else {
-      const mid = Math.floor(arr.length / 2);
-      const node = new Node(arr[mid]);
 
-      node.left = this.buildTree(arr.slice(0, mid));
-      node.right = this.buildTree(arr.slice(mid + 1, arr.length));
+    const mid = Math.floor(arr.length / 2);
+    const node = new Node(arr[mid]);
 
-      return node;
-    }
+    node.left = this.buildTree(arr.slice(0, mid));
+    node.right = this.buildTree(arr.slice(mid + 1, arr.length));
+
+    return node;
   }
+
   // inserts given value
   insert(node = this.root, value) {
     if (node === null) return new Node(value);
@@ -139,23 +139,34 @@ class Tree {
     return result;
   }
 
-  // return string response
-  height(value) {
-    const node = this.find(value);
-    if (node === null) return "Value not found";
-
-    const heightValue = this.calculateHeight(node);
-    return `Height of node is: ${heightValue}`;
+  // returns height
+  height(node) {
+    if (node === null) return -1;
+    const leftHeight = this.height(node.left);
+    const rightHeight = this.height(node.right);
+    return Math.max(leftHeight, rightHeight) + 1;
   }
 
-  // calculate height of given node
-  calculateHeight(node) {
-    if (node === null) return 0;
+  // calculates depth as number of edges from root until given node
+  depth(value, node = this.root) {
+    if (node === null) return "Value not found";
+    if (node.value === value) return 0;
 
-    const leftHeight = this.calculateHeight(node.left);
-    const rightHeight = this.calculateHeight(node.right);
+    if (value > node.value) return this.depth(value, node.right) + 1;
+    if (value < node.value) return this.depth(value, node.left) + 1;
+  }
 
-    return Math.max(leftHeight, rightHeight) + 1;
+  // A balanced tree is one where the difference between heights of left subtree and right subtree is not more than 1.
+  isBalanced(node = this.root) {
+    if (node === null) return null;
+
+    const leftSubtree = this.height(node.left);
+    const rightSubtree = this.height(node.right);
+    const difference = (leftSubtree, rightSubtree) => Math.abs(leftSubtree - rightSubtree);
+
+    if(difference > 1) return false 
+
+    return true
   }
 }
 
