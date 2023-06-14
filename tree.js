@@ -68,6 +68,7 @@ class Tree {
     }
     return currentNode.value;
   }
+
   // returns node with given value
   find(value, node = this.root) {
     if (node === null) return "Value not found";
@@ -78,6 +79,7 @@ class Tree {
     return node;
   }
 
+  // level order traversal
   levelOrder(func = null) {
     if (this.root === null) return;
 
@@ -103,6 +105,7 @@ class Tree {
 
     return func ? null : result;
   }
+
   // in-order traversal
   inorder(func = null, node = this.root, result = []) {
     if (node === null) return result;
@@ -134,6 +137,25 @@ class Tree {
     func ? func(node) : result.push(node.value);
 
     return result;
+  }
+
+  // return string response
+  height(value) {
+    const node = this.find(value);
+    if (node === null) return "Value not found";
+
+    const heightValue = this.calculateHeight(node);
+    return `Height of node is: ${heightValue}`;
+  }
+
+  // calculate height of given node
+  calculateHeight(node) {
+    if (node === null) return 0;
+
+    const leftHeight = this.calculateHeight(node.left);
+    const rightHeight = this.calculateHeight(node.right);
+
+    return Math.max(leftHeight, rightHeight) + 1;
   }
 }
 
