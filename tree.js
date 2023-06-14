@@ -151,23 +151,25 @@ class Tree {
   depth(value, node = this.root) {
     if (node === null) return "Value not found";
     if (node.value === value) return 0;
-
     if (value > node.value) return this.depth(value, node.right) + 1;
     if (value < node.value) return this.depth(value, node.left) + 1;
   }
 
-  // A balanced tree is one where the difference between heights of left subtree and right subtree is not more than 1.
+  // check if the height of the left and right subtree of any node differs by more than 1
   isBalanced(node = this.root) {
-    if (node === null) return null;
+    // an empty tree is balanced
+    if (node === null) return true;
+    
+    let leftSubtree = this.height(node.left);
+    let rightSubtree = this.height(node.right);
+    
+    const difference = Math.abs(leftSubtree - rightSubtree);
+    if (difference > 1) return false;
 
-    const leftSubtree = this.height(node.left);
-    const rightSubtree = this.height(node.right);
-    const difference = (leftSubtree, rightSubtree) => Math.abs(leftSubtree - rightSubtree);
-
-    if(difference > 1) return false 
-
-    return true
+    return this.isBalanced(node.left) && this.isBalanced(node.right)
   }
 }
+
+
 
 export default Tree;
