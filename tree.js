@@ -13,7 +13,6 @@ class Tree {
 
     const mid = Math.floor(arr.length / 2);
     const node = new Node(arr[mid]);
-
     node.left = this.buildTree(arr.slice(0, mid));
     node.right = this.buildTree(arr.slice(mid + 1));
 
@@ -37,7 +36,7 @@ class Tree {
         this.insert(data, node.right);
       }
     }
-    
+
     return node;
   }
 
@@ -68,7 +67,7 @@ class Tree {
     return node;
   }
 
-  // find in-order successor
+  // find inorder successor
   findMinNode(node) {
     let currentNode = node.right;
     while (currentNode && currentNode.left !== null) {
@@ -114,7 +113,7 @@ class Tree {
     return func ? null : result;
   }
 
-  // in-order traversal
+  // inorder traversal
   inorder(func = null, node = this.root, result = []) {
     if (node === null) return result;
 
@@ -125,7 +124,7 @@ class Tree {
     return result;
   }
 
-  // pre-order traversal
+  // preorder traversal
   preorder(func = null, node = this.root, result = []) {
     if (node === null) return result;
 
@@ -136,7 +135,7 @@ class Tree {
     return result;
   }
 
-  // post-order traversal
+  // postorder traversal
   postorder(func = null, node = this.root, result = []) {
     if (node === null) return result;
 
@@ -155,7 +154,7 @@ class Tree {
     return Math.max(leftHeight, rightHeight) + 1;
   }
 
-  // calculates depth as number of edges from root until given node
+  // calculate depth as number of edges from root until given node
   depth(data, node = this.root) {
     if (node === null) return 'Data not found';
     if (node.data === data) return 0;
