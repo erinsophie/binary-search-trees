@@ -1,4 +1,4 @@
-import Node from "./node.js";
+import Node from './node.js';
 
 class Tree {
   constructor(arr) {
@@ -15,33 +15,41 @@ class Tree {
     const node = new Node(arr[mid]);
 
     node.left = this.buildTree(arr.slice(0, mid));
-    node.right = this.buildTree(arr.slice(mid + 1, arr.length));
+    node.right = this.buildTree(arr.slice(mid + 1));
 
     return node;
   }
 
   // inserts given value
-  insert(node = this.root, value) {
-    if (node === null) return new Node(value);
+  insert(data, node = this.root) {
+    if (node === null) return new Node(data);
 
-    if (value < node.value) {
-      node.left = this.insert(node.left, value);
-    } else if (value > node.value) {
-      node.right = this.insert(node.right, value);
+    if (data < node.data) {
+      if (node.left === null) {
+        node.left = new Node(data);
+      } else {
+        this.insert(data, node.left);
+      }
+    } else if (data > node.data) {
+      if (node.right === null) {
+        node.right = new Node(data);
+      } else {
+        this.insert(data, node.right);
+      }
     }
-
+    
     return node;
   }
 
   // deletes given value
-  delete(node = this.root, value) {
+  delete(data, node = this.root) {
     // base case
     if (node === null) return node;
 
-    if (value < node.value) {
-      node.left = this.delete(node.left, value);
-    } else if (value > node.value) {
-      node.right = this.delete(node.right, value);
+    if (data < node.data) {
+      node.left = this.delete(node.left, data);
+    } else if (data > node.data) {
+      node.right = this.delete(node.right, data);
     }
 
     // node with no children
@@ -53,9 +61,9 @@ class Tree {
 
     // node with 2 children
     // replace current node with in-order successor
-    node.value = this.findMinNode(node);
+    node.data = this.findMinNode(node);
     // delete in-order successor from the right subtree
-    node.right = this.delete(node.right, node.value);
+    node.right = this.delete(node.right, node.data);
 
     return node;
   }
@@ -66,15 +74,15 @@ class Tree {
     while (currentNode && currentNode.left !== null) {
       currentNode = currentNode.left;
     }
-    return currentNode.value;
+    return currentNode.data;
   }
 
   // returns node with given value
-  find(value, node = this.root) {
-    if (node === null) return "Value not found";
+  find(data, node = this.root) {
+    if (node === null) return 'Data not found';
 
-    if (value < node.value) return this.find(value, node.left);
-    if (value > node.value) return this.find(value, node.right);
+    if (data < node.data) return this.find(data, node.left);
+    if (data > node.data) return this.find(data, node.right);
 
     return node;
   }
@@ -83,8 +91,8 @@ class Tree {
   levelOrder(func = null) {
     if (this.root === null) return;
 
-    let queue = [];
-    let result = [];
+    const queue = [];
+    const result = [];
     queue.push(this.root);
 
     // while queue is not empty keep looping
@@ -95,7 +103,7 @@ class Tree {
       if (func) {
         func(frontNode); // If a function was provided, call it on the node
       } else {
-        result.push(frontNode.value); // If no function was provided, push node values into result array
+        result.push(frontNode.data); // If no function was provided, push node value into result array
       }
 
       // enqueue its children
@@ -111,7 +119,7 @@ class Tree {
     if (node === null) return result;
 
     this.inorder(func, node.left, result); // traverse left subtree
-    func ? func(node) : result.push(node.value);
+    func ? func(node) : result.push(node.data);
     this.inorder(func, node.right, result); // traverse right subtree
 
     return result;
@@ -121,7 +129,7 @@ class Tree {
   preorder(func = null, node = this.root, result = []) {
     if (node === null) return result;
 
-    func ? func(node) : result.push(node.value);
+    func ? func(node) : result.push(node.data);
     this.preorder(func, node.left, result);
     this.preorder(func, node.right, result);
 
@@ -134,7 +142,7 @@ class Tree {
 
     this.postorder(func, node.left, result);
     this.postorder(func, node.right, result);
-    func ? func(node) : result.push(node.value);
+    func ? func(node) : result.push(node.data);
 
     return result;
   }
@@ -148,28 +156,30 @@ class Tree {
   }
 
   // calculates depth as number of edges from root until given node
-  depth(value, node = this.root) {
-    if (node === null) return "Value not found";
-    if (node.value === value) return 0;
-    if (value > node.value) return this.depth(value, node.right) + 1;
-    if (value < node.value) return this.depth(value, node.left) + 1;
+  depth(data, node = this.root) {
+    if (node === null) return 'Data not found';
+    if (node.data === data) return 0;
+    if (data > node.data) return this.depth(data, node.right) + 1;
+    if (data < node.data) return this.depth(data, node.left) + 1;
   }
 
   // check if the height of the left and right subtree of any node differs by more than 1
   isBalanced(node = this.root) {
     // an empty tree is balanced
     if (node === null) return true;
-    
-    let leftSubtree = this.height(node.left);
-    let rightSubtree = this.height(node.right);
-    
+
+    const leftSubtree = this.height(node.left);
+    const rightSubtree = this.height(node.right);
+
     const difference = Math.abs(leftSubtree - rightSubtree);
     if (difference > 1) return false;
 
-    return this.isBalanced(node.left) && this.isBalanced(node.right)
+    return this.isBalanced(node.left) && this.isBalanced(node.right);
+  }
+
+  rebalance() {
+    return (this.root = this.buildTree(this.inorder()));
   }
 }
-
-
 
 export default Tree;
