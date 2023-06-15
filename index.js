@@ -38,7 +38,7 @@ prettyPrint(tree.root);
 console.log(`Is tree balanced?: ${tree.isBalanced()}`); // true
 
 // 3. Print out all elements in level, pre, post, and in order.
-// breath-first traversal
+// breadth-first traversal
 console.log(`Level order: ${tree.levelOrder()}`);
 
 // depth-first traversal
@@ -59,7 +59,7 @@ prettyPrint(tree.root);
 console.log(`Is tree balanced?: ${tree.isBalanced()}`); // true
 
 // 7. Print out all elements in level, pre, post, and in order
-// breath-first traversal
+// breadth-first traversal
 console.log(`Level order: ${tree.levelOrder()}`);
 
 // depth-first traversal
