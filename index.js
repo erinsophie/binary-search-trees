@@ -31,8 +31,38 @@ function addNumbers(tree, n) {
 }
 
 // 1. Create a binary search tree from an array of random numbers < 100
-const tree = new Tree([1, 2, 3, 4, 5, 6, 7]);
+const tree = new Tree(generateRandomArr(7));
 prettyPrint(tree.root);
-tree.delete(6);
-tree.delete(7);
+
+// 2. Confirm that the tree is balanced by calling isBalanced
+console.log(`Is tree balanced?: ${tree.isBalanced()}`); // true
+
+// 3. Print out all elements in level, pre, post, and in order.
+// breath-first traversal
+console.log(`Level order: ${tree.levelOrder()}`);
+
+// depth-first traversal
+console.log(`Inorder: ${tree.inorder()}`); // inorder method
+console.log(`Preorder: ${tree.preorder()}`); // preorder method
+console.log(`Postorder: ${tree.postorder()}`); // postorder method
+
+// 4. Add several random numbers > 100 to the array to unbalance it
+addNumbers(tree, 10);
 prettyPrint(tree.root);
+console.log(`Is tree balanced?: ${tree.isBalanced()}`); // false
+
+// 5. Balance the tree by calling rebalance
+tree.rebalance();
+prettyPrint(tree.root);
+
+// 6. Confirm that the tree is balanced by calling isBalanced
+console.log(`Is tree balanced?: ${tree.isBalanced()}`); // true
+
+// 7. Print out all elements in level, pre, post, and in order
+// breath-first traversal
+console.log(`Level order: ${tree.levelOrder()}`);
+
+// depth-first traversal
+console.log(`Inorder: ${tree.inorder()}`); // inorder method
+console.log(`Preorder: ${tree.preorder()}`); // preorder method
+console.log(`Postorder: ${tree.postorder()}`); // postorder method
